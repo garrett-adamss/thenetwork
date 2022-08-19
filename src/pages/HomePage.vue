@@ -1,34 +1,44 @@
 <template>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
-  <h1 class="p-5">POST HERE</h1>
+<div class="container-fluid">
+  <div class="row" >
+    <div class='col-md-10 my-3'>
+      <PostForm/>
+    </div>
+    <div v-for="p in posts" :key="p.id">
+      <PostCard :post="p"/>
+    </div>
+  </div>
+  </div>
 </template>
 
 <script>
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
+import { logger } from '../utils/Logger.js';
+import { postsService } from '../services/PostsService.js';
 import Pop from '../utils/Pop.js';
+import { AppState } from '../AppState.js';
+import PostCard from '../components/PostCard.vue';
+import PostForm from '../components/PostForm.vue';
 
 export default {
-  setup() {
-
-
-
-    onMounted(() => {
-
-    })
-    return {
-
-    }
-  }
+    setup() {
+        async function getPost() {
+            try {
+                await postsService.getPost();
+            }
+            catch (error) {
+                logger.error("getting post", error);
+                Pop.error(error);
+            }
+        }
+        onMounted(() => {
+            getPost();
+        });
+        return {
+            posts: computed(() => AppState.posts)
+        };
+    },
+    components: { PostCard, PostForm }
 }
 
 </script>

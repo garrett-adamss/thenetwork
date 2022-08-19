@@ -21,8 +21,8 @@
 
       <div class="right-bar col-2 bg-dark">
         Ads go here
-        <div v-for="a in ads">
-          <AdsCard :ads="a" />
+        <div v-for="a in ads" :key="a.title">
+          <AdsCard :ad="a"  />
         </div>
       </div>
 
@@ -82,7 +82,6 @@ main {
 
 .right-bar {
   height: 93vh;
-  width: 300px;
   overflow-y: hidden;
 }
 </style>

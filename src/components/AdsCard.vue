@@ -1,8 +1,8 @@
 <template>
   <div class="ad-card card selectable">
     <div>
-     <h1>{{ads.title}}</h1>
-      <img :src="ads.tall" alt="no pic" :title="ads.title">
+     <h1>{{ad.title}}</h1>
+      <img :src="ad.tall" alt="UR BAD" :title="ad.title">
     </div>
   </div>
 </template>
@@ -16,9 +16,11 @@ import { Ad } from '../models/Ad.js';
 // TODO  draw the stupid ads
 
 export default { 
+  props: {
+    ad: {type: Ad, required: true}
+  },
   setup() {
     return {
-      ads: computed(()=> AppState.ads)
     }
   }
 }
