@@ -7,20 +7,19 @@
     <div class="row">
 
 
-      <div class="left-bar text-center col-3 bg-dark">
+      <div class="left-bar text-center col-2 bg-dark">
         <div class="d-flex flex-column align-items-center justify-content-between h-100">
           <Login class="pt-3" />
         </div>
       </div>
 
-      <main class="col-7">
+      <main class="col-8">
         <router-view />
       </main>
 
 
 
       <div class="right-bar col-2 bg-dark">
-        Ads go here
         <div v-for="a in ads" :key="a.title">
           <AdsCard :ad="a"  />
         </div>

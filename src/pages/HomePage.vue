@@ -1,7 +1,7 @@
 <template>
 <div class="container-fluid">
   <div class="row" >
-    <div class='col-md-10 my-3'>
+    <div class='my-3'>
       <PostForm/>
     </div>
     <div v-for="p in posts" :key="p.id">

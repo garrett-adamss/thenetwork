@@ -1,9 +1,8 @@
 <template>
-  <div class="ad-card card selectable">
-    <div>
-     <h1>{{ad.title}}</h1>
-      <img :src="ad.tall" alt="UR BAD" :title="ad.title">
-    </div>
+  <div class="ad img-fluid p-1">
+    <a href="">
+    <img class= "selectable "  :src="ad.tall" alt="UR BAD" :title="ad.title">
+    </a>
   </div>
 </template>
 
@@ -15,9 +14,9 @@ import { Ad } from '../models/Ad.js';
 
 // TODO  draw the stupid ads
 
-export default { 
+export default {
   props: {
-    ad: {type: Ad, required: true}
+    ad: { type: Ad, required: true }
   },
   setup() {
     return {
@@ -28,4 +27,8 @@ export default {
 
 
 <style lang="scss" scoped>
+img {
+  transition: all .15s linear;
+  height: 375px;
+  }
 </style>

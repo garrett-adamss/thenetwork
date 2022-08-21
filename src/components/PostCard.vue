@@ -1,5 +1,5 @@
 <template>
-    <div class="post-card card selectable">
+    <div class="post-card card selectable offset-md-1 col-md-10 align-items-center justify-content-around">
         <div class="card-body">
             <div class="card-title">
 
@@ -11,9 +11,16 @@
                         })
                     }}
                 </h6>
-                <img :src="post.imgUrl" alt="none"/>
+                <img :src="post.imgUrl" alt="none" />
                 <p>{{ post.body }}</p>
 
+                <div class="post-creator" v-if="post.creator">
+                <router-link :to="{ name: 'Profile', params: { profileId: post.creator.id } }">
+                        <img :src="post.creator.picture" alt="" :title="post.creator.name" class="selectable elevation-2">
+                    </router-link>
+                </div>
+
+                <div></div>
 
 
             </div>
@@ -35,7 +42,7 @@ export default {
         return {
             account: computed(() => AppState.account),
 
-        };
+        }
     },
     components: { PostForm }
 }
