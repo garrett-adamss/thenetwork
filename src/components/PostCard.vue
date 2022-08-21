@@ -20,6 +20,10 @@
                     </router-link>
                 </div>
 
+                <div class="delete-button" v-if="account.id == post.creator.id">
+                <button class="btn btn-outline-danger" @click="deletePost(post.id)">Delete</button>
+                </div>
+
                 <div></div>
 
 
@@ -33,6 +37,10 @@
 import { computed, ref } from 'vue';
 import { Post } from '../models/Post.js';
 import PostForm from './PostForm.vue';
+import { AppState } from "../AppState.js";
+import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop.js";
+import { postsService } from "../services/PostsService";
 
 export default {
     props: {
@@ -41,7 +49,15 @@ export default {
     setup() {
         return {
             account: computed(() => AppState.account),
-
+            deletePost(id){
+                try {
+                    await postsService.deletePost(id)
+                    logger.log('deleting post')
+                } catch (error) {
+                    logger.error('deleting post', error)
+                    Pop.error(error)
+                }
+            }
         }
     },
     components: { PostForm }
