@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="delete-button" v-if="account.id == post.creator.id">
-                <button class="btn btn-outline-danger" @click="deletePost(post.id)">Delete</button>
+                <button class="btn btn-outline-danger" @click="deletePost">Delete</button>
                 </div>
 
                 <div></div>
@@ -51,7 +51,6 @@ export default {
             account: computed(() => AppState.account),
             deletePost(id){
                 try {
-                    await postsService.deletePost(id)
                     logger.log('deleting post')
                 } catch (error) {
                     logger.error('deleting post', error)
