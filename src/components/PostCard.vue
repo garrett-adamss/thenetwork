@@ -10,7 +10,7 @@
                     }}
                 </h6>
                 <div class=" align-items-center">
-                <img class= "post-img" :src="post.imgUrl" alt="No Photo on this post!" />
+                <img class= "post-img" :src="post.imgUrl" alt="" />
                 </div>
                 <p>{{ post.body }}</p>
 
@@ -21,8 +21,8 @@
                 </div>
                 <div class="row">
                 <div class="col-3">
-                    <button class="btn btn-success" @click="toggleLike()">like</button>
-                    {{ Math.floor(Math.random() * 11) }}
+                    <button class="btn btn-success" @click="likePost(post.id)">like</button>
+                    {{ post.likes.length }}
                 </div>
 
                 <div class="delete-button col-2" v-if="account.id == post.creator.id">
@@ -61,30 +61,15 @@ export default {
                     Pop.error(error)
                 }
             },
-            async toggleLike(){
+            async likePost(id){
                 try {
-                    if(post.like){
-
-                    }else {
-
-                    }
+                    postsService.likePost(id)
+                    logger.log('liking post')
                 } catch (error) {
                     logger.log("toggle like", error)
                     Pop.error(error)
                 }
-            },
-
-            
-            // async likePost(id){
-            //     try {
-            //         postsService.likePost(id)
-            //         logger.log('liking post')
-            //     } catch (error) {
-            //     logger.error('liking post', error)
-            //     Pop.error('liking post', error)
-            //     }
-            // }
-
+            }
         }
     },
     components: { PostForm }

@@ -23,8 +23,8 @@ class PostsService {
         })
         logger.log('post by creator id RES', res.data)
         AppState.profilePosts = res.data.posts.map(p => new Post(p))
-        AppState.profilesNextPage = res.data.older
-        AppState.profilePreviousPage = res.data.newer
+        AppState.nextPage = res.data.older
+        AppState.previousPage = res.data.newer
     }
 
     async createPost(postData){
@@ -46,7 +46,7 @@ class PostsService {
         logger.log('previous page', AppState.previousPage) 
     }
     async getPostsBySearch(searchTerm) {
-        const res = await api.get('/api/posts', {
+        const res = await api.get('/api/searchPosts', {
             params: {
                 query: searchTerm
             }
@@ -55,8 +55,9 @@ class PostsService {
         AppState.posts = res.data.posts.map(p => new Post(p))
     }
     async likePost(id){
-        const res = await api.post(`/api/${id}/like`)
-        logger.log("like res", res)
+        const res = await api.post(`/api/posts/${id}/like`)
+        const index = AppState.posts.findIndex(p => p.id == id)
+        AppState.posts.splice(index, 1, new Post(res.data))
     }
 
 }

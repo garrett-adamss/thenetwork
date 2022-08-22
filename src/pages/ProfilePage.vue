@@ -79,6 +79,7 @@ export default {
       }
     }
 
+
     onMounted(() => {
       getProfileById()
       getPostByCreatorId()
