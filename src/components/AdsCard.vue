@@ -8,11 +8,7 @@
 
 
 <script>
-import { computed } from '@vue/reactivity';
-import { AppState } from '../AppState.js';
 import { Ad } from '../models/Ad.js';
-
-// TODO  draw the stupid ads
 
 export default {
   props: {

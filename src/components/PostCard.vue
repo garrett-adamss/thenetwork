@@ -1,17 +1,17 @@
 <template>
-    <div class="post-card card selectable offset-md-1 col-md-10 align-items-center justify-content-around">
-        <div class="card-body">
-            <div class="card-title">
-
-                <h6 class="text-uppercase text-light">
-                    {{ post.createdAt }}
-                    {{ new Date(post.createdAt).toLocaleDateString('ar-EG', {
-                            month: 'short', day:
-                                'numeric'
-                        })
+    <div class="post-card card selectable offset-md-1 col-md-8 d-flex  justify-content-around card-body container-fluid">
+       
+                <h6 class="text-uppercase text-dark">
+                    {{ new Date(post.createdAt).toLocaleDateString('en-GB', { 
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                     })
                     }}
                 </h6>
-                <img :src="post.imgUrl" alt="none" />
+                <div class=" align-items-center">
+                <img class= "post-img" :src="post.imgUrl" alt="No Photo on this post!" />
+                </div>
                 <p>{{ post.body }}</p>
 
                 <div class="post-creator" v-if="post.creator">
@@ -19,16 +19,18 @@
                         <img :src="post.creator.picture" alt="" :title="post.creator.name" class="selectable elevation-2">
                     </router-link>
                 </div>
-
-                <div class="delete-button" v-if="account.id == post.creator.id">
-                <button class="btn btn-outline-danger" @click="deletePost">Delete</button>
+                <div class="row">
+                <div class="col-3">
+                    <button class="btn btn-success" @click="toggleLike()">like</button>
+                    {{ Math.floor(Math.random() * 11) }}
                 </div>
 
-                <div></div>
+                <div class="delete-button col-2" v-if="account.id == post.creator.id">
+                <button class="btn btn-outline-danger" @click="deletePost(post.id)">Delete</button>
+                </div>
 
-
-            </div>
-        </div>
+                </div>
+        
     </div>
 </template>
 
@@ -42,6 +44,7 @@ import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop.js";
 import { postsService } from "../services/PostsService";
 
+
 export default {
     props: {
         post: { type: Post, required: true }
@@ -49,14 +52,39 @@ export default {
     setup() {
         return {
             account: computed(() => AppState.account),
-            deletePost(id){
+            async deletePost(id){
                 try {
+                     postsService.deletePost(id)
                     logger.log('deleting post')
                 } catch (error) {
                     logger.error('deleting post', error)
                     Pop.error(error)
                 }
-            }
+            },
+            async toggleLike(){
+                try {
+                    if(post.like){
+
+                    }else {
+
+                    }
+                } catch (error) {
+                    logger.log("toggle like", error)
+                    Pop.error(error)
+                }
+            },
+
+            
+            // async likePost(id){
+            //     try {
+            //         postsService.likePost(id)
+            //         logger.log('liking post')
+            //     } catch (error) {
+            //     logger.error('liking post', error)
+            //     Pop.error('liking post', error)
+            //     }
+            // }
+
         }
     },
     components: { PostForm }
@@ -73,6 +101,10 @@ export default {
     margin-bottom: 3rem;
 
     position: relative;
+}
+
+.post-img{ 
+    height: 200px;
 }
 
 .post-creator {

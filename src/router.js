@@ -32,6 +32,12 @@ const routes = [
     name: 'Ads',
     component: loadPage('App'),
     beforeEnter: authGuard
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: loadPage('SearchPage'),
+    beforeEnter: authGuard
   }
 ]
 

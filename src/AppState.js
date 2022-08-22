@@ -5,6 +5,8 @@ export const AppState = reactive({
   user: {},
   /**@type {import('./models/Account.js').Account} */
   account: {},
+  nextPage: null,
+  previousPage: null,
 
   /**@type {import('./models/Ad.js').Ad[]} */
   ads: [],
@@ -14,9 +16,8 @@ export const AppState = reactive({
 
   /**@type {import('./models/Post.js').Post[]} */
   posts: [],
-  nextPage: null,
-  previousPage: null,
   profilePosts: [],
+
 
 
 })

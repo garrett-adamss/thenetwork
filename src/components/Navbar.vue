@@ -20,13 +20,14 @@
       <ul class="navbar-nav me-auto">
         <li>
           <router-link
-            :to="{ name: 'About' }"
+            :to="{ name: 'Search', params: { } }"
             class="btn text-success lighten-30 selectable text-uppercase"
           >
-            About
+            Search
           </router-link>
         </li>
       </ul>
+      <SearchForm />
     </div>
   </nav>
 </template>

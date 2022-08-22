@@ -60,6 +60,7 @@ export default {
   components: { AdsCard }
 }
 </script>
+
 <style lang="scss">
 @import "./assets/scss/main.scss";
 body{

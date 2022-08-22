@@ -1,13 +1,18 @@
 <template>
-<div class="container-fluid">
-  <div class="row" >
-    <div class='my-3'>
-      <PostForm/>
-    </div>
-    <div v-for="p in posts" :key="p.id">
-      <PostCard :post="p"/>
-    </div>
-  </div>
+  <div class="container-fluid">
+    <div class="row">
+        <div class='my-3'>
+          <PostForm />
+        </div>
+        <div class="col-md-10 row col-offset-1">
+          <button class="col-md-5" :disabled="!previousPage" @click="changePage(previousPage)">previous</button>
+          <button class="col-md-5" @click="changePage(nextPage)">next</button>
+        </div>
+        <div v-for="p in posts" :key="p.id">
+          <PostCard :post="p" />
+        </div>
+      </div>
+  
   </div>
 </template>
 
@@ -21,24 +26,37 @@ import PostCard from '../components/PostCard.vue';
 import PostForm from '../components/PostForm.vue';
 
 export default {
-    setup() {
-        async function getPost() {
-            try {
-                await postsService.getPost();
-            }
-            catch (error) {
-                logger.error("getting post", error);
-                Pop.error(error);
-            }
+  setup() {
+    async function getPost() {
+      try {
+        await postsService.getPost();
+      }
+      catch (error) {
+        logger.error("getting post", error);
+        Pop.error(error);
+      }
+    }
+    onMounted(() => {
+      getPost()
+    })
+    return {
+      posts: computed(() => AppState.posts),
+      nextPage: computed(() => AppState.nextPage),
+      previousPage: computed(() => AppState.previousPage),
+
+
+      async changePage(url) {
+        try {
+          logger.log("URL", url)
+          await postsService.changePage(url)
+        } catch (error) {
+          logger.error("changing page", error)
         }
-        onMounted(() => {
-            getPost();
-        });
-        return {
-            posts: computed(() => AppState.posts)
-        };
-    },
-    components: { PostCard, PostForm }
+      }
+
+    }
+  },
+  components: { PostCard, PostForm }
 }
 
 </script>

@@ -15,22 +15,48 @@ class PostsService {
         logger.log("NEXT PAGE", AppState.nextPage)
         logger.log("PREVIOUS PAGE", AppState.previousPage)
     }
+    async getPostByCreatorId(creatorId){
+        const res = await api.get('/api/posts', {
+            params: {
+                creatorId
+            }
+        })
+        logger.log('post by creator id RES', res.data)
+        AppState.profilePosts = res.data.posts.map(p => new Post(p))
+        AppState.profilesNextPage = res.data.older
+        AppState.profilePreviousPage = res.data.newer
+    }
+
     async createPost(postData){
         const res = await api.post('/api/posts', postData)
         logger.log("creating post", res.data)
         AppState.posts.unshift(new Post(res.data))
     }
 
-    async editPost(postData){
-        const res = await api.put(`/api/posts/${postData.id}`, postData)
-        const index = AppState.posts.findIndex(p => p.id == postData.id)
-
-        AppState.projects.splice(index, 1, new Post(res.data))
+    async deletePost(id){
+        const res = await api.delete(`/api/posts/${id}`)
+        AppState.posts = AppState.posts.filter(p => p.id != id)
     }
-
-    async deletePost(postId){
-        const res = await api.delete(`/api/post/${postId}`)
-        AppState.posts = AppState.posts.filter(p => p.id != postId)
+    async changePage(url){
+        const res = await api.get(url)
+        AppState.posts = res.data.posts.map(p => new Post(p))
+        AppState.nextPage = res.data.older
+        logger.log('next page', AppState.nextPage)
+        AppState.previousPage = res.data.newer
+        logger.log('previous page', AppState.previousPage) 
+    }
+    async getPostsBySearch(searchTerm) {
+        const res = await api.get('/api/posts', {
+            params: {
+                query: searchTerm
+            }
+        })
+        logger.log("GET POST BY SEARCH", res.data)
+        AppState.posts = res.data.posts.map(p => new Post(p))
+    }
+    async likePost(id){
+        const res = await api.post(`/api/${id}/like`)
+        logger.log("like res", res)
     }
 
 }

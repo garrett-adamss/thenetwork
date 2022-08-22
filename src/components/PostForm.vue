@@ -39,7 +39,7 @@ export default {
                 editable.value = {}
             } catch (error) {
                 logger.error('[creating/edit Post]', error)
-                Pop.error(error)
+                Pop.error("you must log in first", error)
             }
         }
 
