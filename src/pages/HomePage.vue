@@ -11,6 +11,9 @@
         <div v-for="p in posts" :key="p.id">
           <PostCard :post="p" />
         </div>
+        <div v-for="p in searchPosts" :key="p.id">
+          <ProfileSearchResult :profile="p"/>
+        </div>
       </div>
   
   </div>
@@ -24,6 +27,7 @@ import Pop from '../utils/Pop.js';
 import { AppState } from '../AppState.js';
 import PostCard from '../components/PostCard.vue';
 import PostForm from '../components/PostForm.vue';
+import ProfileSearchResult from '../components/ProfileSearchResult.vue';
 
 export default {
   setup() {
@@ -56,7 +60,7 @@ export default {
 
     }
   },
-  components: { PostCard, PostForm }
+  components: { PostCard, PostForm, ProfileSearchResult }
 }
 
 </script>

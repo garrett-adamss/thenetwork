@@ -1,5 +1,6 @@
 import { AppState } from "../AppState.js"
 import { Post } from "../models/Post.js"
+import { Profile } from "../models/Profile.js"
 import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
 
@@ -46,13 +47,20 @@ class PostsService {
         logger.log('previous page', AppState.previousPage) 
     }
     async getPostsBySearch(searchTerm) {
-        const res = await api.get('/api/searchPosts', {
+        const res = await api.get('/api/posts', {
             params: {
                 query: searchTerm
             }
         })
-        logger.log("GET POST BY SEARCH", res.data)
+        const pres = await api.get('/api/profiles', {
+            params: {
+                query: searchTerm
+            }
+        })
+        logger.log("GET POST BY SEARCH", pres.data)
         AppState.posts = res.data.posts.map(p => new Post(p))
+        AppState.searchProfiles = pres.data.map(p => new Profile(p))
+        // AppState.searchProfiles = new Profile(pres.data)
     }
     async likePost(id){
         const res = await api.post(`/api/posts/${id}/like`)
